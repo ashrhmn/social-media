@@ -1,0 +1,32 @@
+import ImageFilePreview from "@/app/components/ImageFilePreview";
+import { CameraIcon } from "@/app/components/Svgs";
+import React from "react";
+
+const EditPostImageInput = ({
+  error,
+  initialImageUrl,
+}: {
+  error?: string;
+  initialImageUrl?: string;
+}) => {
+  return (
+    <>
+      <input hidden id="edit-post-image-input" type="file" name="media" />
+      <ImageFilePreview
+        initialImageUrl={initialImageUrl}
+        className="w-full aspect-square mt-10 object-contain"
+        inputElementId="edit-post-image-input"
+        emptyContainerProps={{
+          className:
+            "group border w-full mt-10 aspect-square flex justify-center items-center cursor-pointer",
+          children: (
+            <CameraIcon className="p-3 max-h-40 group-hover:text-gray-400 transition-all cursor-pointer" />
+          ),
+        }}
+      />
+      {error && <label className="label text-error">{error}</label>}
+    </>
+  );
+};
+
+export default EditPostImageInput;
