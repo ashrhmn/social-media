@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Timestamp from "@/app/components/Timestamp";
-import { basename } from "path";
 import React from "react";
 import AttachmentBubble from "./AttachmentBubble";
 import Link from "next/link";

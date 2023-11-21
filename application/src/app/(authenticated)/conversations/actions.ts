@@ -172,3 +172,5 @@ export const handleCreateGroupMessage = createFormHandler(
     return {};
   }
 );
+
+export const getFileUrls = storageService.getFileUrls.bind(storageService);
