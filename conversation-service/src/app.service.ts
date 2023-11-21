@@ -66,6 +66,10 @@ FROM (
     return this.prisma.message.findMany(options);
   }
 
+  async countMessages(options: Prisma.MessageCountArgs) {
+    return this.prisma.message.count(options);
+  }
+
   async createGroupWithMessage({
     groupName,
     messageContent,

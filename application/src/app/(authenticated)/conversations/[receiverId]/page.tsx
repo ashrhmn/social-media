@@ -34,7 +34,7 @@ const OneToOneConversationPage = async ({ params: { receiverId } }: any) => {
   const avatarFileMap = await storageService.getFileUrls(
     [receiverUser.avatarPath, platformUser.avatarPath].filter(Boolean)
   );
-  const messages = await conversationService.findManyMessages({
+  const findOptions = {
     where: {
       OR: [
         {
@@ -47,11 +47,24 @@ const OneToOneConversationPage = async ({ params: { receiverId } }: any) => {
         },
       ],
     },
-    orderBy: {
-      createdAt: "desc",
-    },
-    take: 30,
-  });
+  };
+  const initialLoadCount = 10;
+  const getMessageCount = async () => {
+    "use server";
+    return await conversationService.countMessages(findOptions);
+  };
+  const getMessages = async (take: number) => {
+    "use server";
+    return await conversationService.findManyMessages({
+      ...findOptions,
+      orderBy: {
+        createdAt: "desc",
+      },
+      take,
+    });
+  };
+
+  const messages = await getMessages(initialLoadCount);
 
   return (
     <div className="p-3">
@@ -63,6 +76,9 @@ const OneToOneConversationPage = async ({ params: { receiverId } }: any) => {
         platformUser={platformUser}
         userMap={userMap}
         avatarFileMap={avatarFileMap}
+        getMessageCount={getMessageCount}
+        getMessages={getMessages}
+        initialLoadCount={initialLoadCount}
       />
       <SendMessageForm
         userId={platformUser.id}

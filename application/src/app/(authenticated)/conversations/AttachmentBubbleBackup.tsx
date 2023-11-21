@@ -1,22 +1,12 @@
-"use client";
-
-// import { StorageService } from "@/services/StorageService";
+import { StorageService } from "@/services/StorageService";
 import { basename } from "path";
-import React, { useEffect, useState } from "react";
-import { getFileUrls } from "./actions";
-// import Container from "typedi";
+import React from "react";
+import Container from "typedi";
 
-// const storageService = Container.get(StorageService);
+const storageService = Container.get(StorageService);
 
-const AttachmentBubble = ({ paths }: any) => {
-  const [urlMap, setUrlMap] = useState({} as Record<string, string>);
-  useEffect(() => {
-    getFileUrls(paths).then(setUrlMap);
-  }, [paths]);
-  if (Object.keys(urlMap).length === 0)
-    return (
-      <div className="chat-bubble flex flex-col mt-1 w-56 animate-pulse" />
-    );
+const AttachmentBubble = async ({ paths }: any) => {
+  const urlMap = await storageService.getFileUrls(paths);
   return (
     <div className="chat-bubble flex flex-col mt-1">
       {Object.entries(urlMap).map(([path, url]) => {

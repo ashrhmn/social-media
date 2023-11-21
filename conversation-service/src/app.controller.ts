@@ -44,6 +44,11 @@ export class AppController {
     return this.appService.findManyMessages(options);
   }
 
+  @MessagePattern("COUNT_MESSAGES")
+  countMessages(options: Prisma.MessageCountArgs) {
+    return this.appService.countMessages(options);
+  }
+
   @MessagePattern("CREATE_GROUP_WITH_MESSAGE")
   createGroupWithMessage(
     @Payload()

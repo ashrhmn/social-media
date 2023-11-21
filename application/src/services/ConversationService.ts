@@ -29,6 +29,10 @@ export class ConversationService extends RmqClient {
     return this.send("FIND_MANY_MESSAGES", options);
   }
 
+  countMessages(options: any = {}) {
+    return this.send("COUNT_MESSAGES", options);
+  }
+
   createGroupWithMessage(
     data: {
       senderId: string;

@@ -36,12 +36,26 @@ const GroupConversationPage = async ({ params: { groupId } }: any) => {
       .filter(Boolean)
   );
 
-  const messages = await conversationService.findManyMessages({
+  const initialLoadCount = 10;
+  const findOptions = {
     where: { groupId },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  };
+  const getMessageCount = async () => {
+    "use server";
+    return await conversationService.countMessages(findOptions);
+  };
+  const getMessages = async (take: number) => {
+    "use server";
+    return await conversationService.findManyMessages({
+      ...findOptions,
+      orderBy: {
+        createdAt: "desc",
+      },
+      take,
+    });
+  };
+
+  const messages = await getMessages(initialLoadCount);
 
   return (
     <div className="p-3">
@@ -51,6 +65,9 @@ const GroupConversationPage = async ({ params: { groupId } }: any) => {
         platformUser={platformUser}
         userMap={userMap}
         avatarFileMap={avatarFileMap}
+        getMessageCount={getMessageCount}
+        getMessages={getMessages}
+        initialLoadCount={initialLoadCount}
       />
       <SendGroupMessageForm userId={platformUser.id} groupId={groupId} />
       <SocketListener />
