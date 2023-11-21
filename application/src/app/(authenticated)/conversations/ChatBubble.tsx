@@ -31,7 +31,9 @@ const ChatBubble = ({
     <ul key={m.id} className={`chat ${chatSideClass}`}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
-          <img alt={avatarUrl} src={avatarUrl} />
+          <Link href={`/profile/${m.senderId}`}>
+            <img alt={avatarUrl} src={avatarUrl} />
+          </Link>
         </div>
       </div>
       <div className="chat-header">
