@@ -24,9 +24,9 @@ const PublicProfilePage = async ({ params: { usernameOrPlatformId } }: any) => {
     .getUsersByIds([usernameOrPlatformId])
     .then((res) => res[usernameOrPlatformId]);
   if (!platformUser) throw notFound();
-  const visitingAuthUser = await userService
-    .getAuthUserIdsFromPlatformUserIds([usernameOrPlatformId])
-    .then((res) => res[usernameOrPlatformId]);
+  const visitingAuthUser = await authUserService.getOneAuthUser({
+    where: { email: platformUser.email },
+  });
   if (!visitingAuthUser) throw notFound();
   if (authUser?.user?.username === visitingAuthUser?.username)
     throw redirect("/profile");
