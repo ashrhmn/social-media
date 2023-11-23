@@ -26,9 +26,9 @@ const ChatView = ({
   const { inViewport } = useInViewport(loadingRef);
   useEffect(() => {
     if (inViewport) {
-      setTake((prev) => prev + 10);
+      setTake((prev) => prev + initialLoadCount);
     }
-  }, [inViewport]);
+  }, [inViewport, initialLoadCount]);
   return (
     <ul className="flex flex-col-reverse h-[80dvh] overflow-y-auto">
       {messages.map((m: any) => (
