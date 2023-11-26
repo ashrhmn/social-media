@@ -49,8 +49,16 @@ const PostItem = ({
           <Timestamp timeStamp={post.createdAt} />
         </span>
       </h2>
-      <p>{post.content}</p>
-      {mediaUrl && <img className="mt-3" src={mediaUrl} alt={post.title} />}
+      {!!post.content && (
+        <Link href={`/post/${post.id}`}>
+          <p>{post.content}</p>
+        </Link>
+      )}
+      {mediaUrl && (
+        <Link href={`/post/${post.id}`}>
+          <img className="mt-3" src={mediaUrl} alt={post.title} />
+        </Link>
+      )}
     </div>
   );
 };

@@ -28,12 +28,16 @@ export class RmqClient {
       this.replyQueue,
       (message) => {
         this.eventEmitter.emit(
-          `${queueName}_REPLY_ID_${message.properties.correlationId}`,
+          this.replyEvent(message.properties.correlationId),
           message?.content.toString()
         );
       },
       { noAck: true }
     );
+  }
+
+  private replyEvent(correlationId: string) {
+    return `${this.queueName}_REPLY_ID_${correlationId}`;
   }
 
   protected emit(pattern: string, data: any, notifyId?: string) {
@@ -68,16 +72,13 @@ export class RmqClient {
           new TimeoutError(`${pattern} Request to ${this.queueName} timed out`)
         );
       }, timeout);
-      this.eventEmitter.once(
-        `${this.queueName}_REPLY_ID_${correlationId}`,
-        (message) => {
-          clearTimeout(timeoutId);
-          const response = JSON.parse(message as any);
-          if (response.err) reject(response.err);
-          else if (!response.response) reject(response);
-          else resolve(response.response);
-        }
-      );
+      this.eventEmitter.once(this.replyEvent(correlationId), (message) => {
+        clearTimeout(timeoutId);
+        const response = JSON.parse(message as any);
+        if (response.err) reject(response.err);
+        else if (!response.response) reject(response);
+        else resolve(response.response);
+      });
     });
   }
 }
