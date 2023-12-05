@@ -16,19 +16,24 @@ const ChatView = ({
   const [take, setTake] = useState(initialLoadCount as number);
   const [messages, setMessages] = useState(initialMessages);
   const [messageCount, setMessageCount] = useState(0);
+
   useEffect(() => {
     getMessageCount().then(setMessageCount);
   }, [getMessageCount]);
+
   useEffect(() => {
     getMessages(take).then(setMessages);
   }, [getMessages, take]);
+
   const loadingRef = useRef<HTMLParagraphElement>(null);
   const { inViewport } = useInViewport(loadingRef);
+
   useEffect(() => {
     if (inViewport) {
       setTake((prev) => prev + initialLoadCount);
     }
   }, [inViewport, initialLoadCount]);
+
   return (
     <ul className="flex flex-col-reverse h-[80dvh] overflow-y-auto">
       {messages.map((m: any) => (

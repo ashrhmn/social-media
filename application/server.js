@@ -22,17 +22,7 @@ const amqpExchange = process.env.SOCKET_ADAPTER_AMQP_EXCHANGE || "socket_event";
  * A class representing a store for socket IDs
  * for managing socket IDs for a authenticated users
  */
-class SocketIdStore {
-  map = new Map();
-
-  get(token) {
-    return this.map.get(token) || [];
-  }
-
-  set(token, ids) {
-    this.map.set(token, ids);
-  }
-
+class SocketIdStore extends Map {
   add(token, id) {
     if (!token) return;
     if (!id) return;
@@ -136,4 +126,4 @@ const bootstrap = async () => {
   );
 };
 
-bootstrap();
+bootstrap().catch(console.error);

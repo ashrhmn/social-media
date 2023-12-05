@@ -1,0 +1,8 @@
+node_modules
+.git
+*.md
+out
+.vscode
+Dockerfile
+docker*.*
+.next

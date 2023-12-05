@@ -1,4 +1,3 @@
-import { fileListSchema } from "@/utils/zod.utils";
 import { z } from "zod";
 
 export const updateProfileFormSchema = z.object({

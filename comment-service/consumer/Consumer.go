@@ -31,7 +31,7 @@ func (c *Consumer) Start() {
 
 	channel, err := c.config.Connection.Channel()
 	if err != nil {
-		panic(err)
+		log.Fatal("Error creating rmq channel : ", err)
 	}
 	channel.QueueDeclare(
 		c.config.QueueName,
@@ -51,22 +51,17 @@ func (c *Consumer) Start() {
 		nil,
 	)
 	if err != nil {
-		panic(err)
+		log.Fatal("Error consuming rmq messages : ", err)
 	}
 	fmt.Println("Started consuming messages")
 	for msg := range messages {
-		// log.Printf("Received message: %s\n", msg.Body)
 		svcMsg := types.ServiceMsg{}
 		err := json.Unmarshal(msg.Body, &svcMsg)
 		if err != nil {
-			log.Println(err)
+			log.Println("Error unmarshalling message: ", err)
 			continue
 		}
 		reply := c.config.Router.Handle(svcMsg.Pattern, svcMsg.Data)
-		// if err != nil {
-		// 	log.Println(err)
-		// 	continue
-		// }
 		if reply != nil {
 			err := channel.PublishWithContext(
 				context.Background(),
@@ -81,7 +76,7 @@ func (c *Consumer) Start() {
 				},
 			)
 			if err != nil {
-				log.Println(err)
+				log.Println("Error publishing reply: ", err)
 			}
 		}
 	}

@@ -14,7 +14,6 @@ func NewCommentRouter() *types.RouterGroup {
 	router.Register("CREATE_COMMENT", func(msg []byte, c *types.RouterContext) []byte {
 		payload := generated.CreateCommentParams{}
 		err := json.Unmarshal(msg, &payload)
-
 		if err != nil {
 			return nil
 		}
@@ -25,7 +24,6 @@ func NewCommentRouter() *types.RouterGroup {
 	router.Register(("CREATE_CHILD_COMMENT"), func(msg []byte, c *types.RouterContext) []byte {
 		payload := generated.CreateChildCommentParams{}
 		err := json.Unmarshal(msg, &payload)
-
 		if err != nil {
 			return nil
 		}

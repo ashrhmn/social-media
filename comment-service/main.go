@@ -47,7 +47,6 @@ func main() {
 	router := types.NewRouter(&routerContext)
 
 	router.Register("PING", func(msg []byte, c *types.RouterContext) []byte {
-		println("handling PING")
 		return c.Success("PONG")
 		// return c.Error("PING not supported")
 	})
@@ -59,6 +58,6 @@ func main() {
 		QueueName:  *queueName,
 		Connection: amqpConnection,
 	}
-	consumer := consumer.NewConsumer(consumerConfig)
-	consumer.Start()
+	c := consumer.NewConsumer(consumerConfig)
+	c.Start()
 }

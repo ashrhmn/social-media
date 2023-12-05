@@ -58,13 +58,3 @@ export const createFormHandler = <T extends ZodTypeAny>(
     return handler(validation.data, prevState, formData);
   };
 };
-
-export const fileListSchema = (maxCount = 5, maxSizeInBytes = 10_000_000) =>
-  z
-    .instanceof(FileList)
-    .refine((x) => Array.from(x).length <= maxCount, "Attachment is required")
-    .refine(
-      (x) =>
-        Array.from(x).filter((file) => file.size > maxSizeInBytes).length === 0,
-      "File size too large"
-    );
