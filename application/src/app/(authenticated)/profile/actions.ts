@@ -7,6 +7,7 @@ import Container from "typedi";
 import { PostService } from "@/services/PostService";
 import { EventService } from "@/services/EventService";
 import { revalidatePath } from "next/cache";
+import { appPath } from "@/utils/path.utils";
 
 const postService = Container.get(PostService);
 const eventService = Container.get(EventService);
@@ -17,8 +18,7 @@ export const handleDeletePost = createFormHandler(
     const notifyId = v4();
     eventService.notifyOn(notifyId, (err) => err || "Post Deleted", [userId]);
     postService.deletePost({ id: postId }, notifyId);
-    revalidatePath("/profile");
-    // redirect("/profile");
+    revalidatePath(appPath("/profile"));
     return {};
   }
 );

@@ -2,6 +2,7 @@ import ProfileView from "@/app/(authenticated)/profile/ProfileView";
 import { getAuthUser } from "@/lib/auth";
 import { AuthUserService } from "@/services/AuthUserService";
 import { UserService } from "@/services/UserService";
+import { appPath } from "@/utils/path.utils";
 import { notFound, redirect } from "next/navigation";
 import Container from "typedi";
 
@@ -16,7 +17,8 @@ const PublicProfilePage = async ({ params: { usernameOrPlatformId } }: any) => {
     })
     .catch(() => null);
   if (user) {
-    if (authUser?.user?.username === user?.username) throw redirect("/profile");
+    if (authUser?.user?.username === user?.username)
+      throw redirect(appPath("/profile"));
     const platformUser = await userService.getUserByEmail(user.email);
     return <ProfileView user={user} platformUser={platformUser} publicView />;
   }
@@ -29,7 +31,7 @@ const PublicProfilePage = async ({ params: { usernameOrPlatformId } }: any) => {
   });
   if (!visitingAuthUser) throw notFound();
   if (authUser?.user?.username === visitingAuthUser?.username)
-    throw redirect("/profile");
+    throw redirect(appPath("/profile"));
   return (
     <ProfileView
       user={visitingAuthUser}

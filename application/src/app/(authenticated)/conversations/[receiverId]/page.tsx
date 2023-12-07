@@ -10,6 +10,7 @@ import SendMessageForm from "./SendMessageForm";
 import SocketListener from "../SocketListener";
 import { AuthUserService } from "@/services/AuthUserService";
 import ChatView from "../ChatView";
+import { appPath } from "@/utils/path.utils";
 
 const userService = Container.get(UserService);
 const conversationService = Container.get(ConversationService);
@@ -20,7 +21,7 @@ const OneToOneConversationPage = async ({ params: { receiverId } }: any) => {
   const { user } = await getAuthUser();
   const platformUser = await userService
     .getUserByEmail(user.user.email)
-    .catch(() => redirect("/complete-sign-up"));
+    .catch(() => redirect(appPath("/complete-sign-up")));
   const receiverUser = await userService
     .findFirstUser({
       where: { id: receiverId },

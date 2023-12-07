@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import Container from "typedi";
 import { UserService } from "@/services/UserService";
 import GenericNotification from "@/app/components/GenericNotification";
+import { appPath } from "@/utils/path.utils";
 
 const userService = Container.get(UserService);
 
@@ -13,7 +14,7 @@ const CompleteSignUpPage = async () => {
   const platformUser = await userService
     .getUserByEmail(user.user.email)
     .catch(() => null);
-  if (platformUser) redirect("/profile");
+  if (platformUser) redirect(appPath("/profile"));
   return (
     <div className="p-3">
       <h1 className="text-xl font-bold text-center">Complete SignUp</h1>

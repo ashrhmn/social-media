@@ -5,7 +5,7 @@ import { Injectable } from "@nestjs/common";
 export class NotificationService {
   channel: ChannelWrapper;
   constructor() {
-    const connection = connect("amqp://localhost");
+    const connection = connect(process.env.RMQ_URL || "amqp://localhost");
     const channel = connection.createChannel({
       name: "NotificationQueue",
       json: true,

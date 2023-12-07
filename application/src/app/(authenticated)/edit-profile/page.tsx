@@ -7,6 +7,7 @@ import EditProfileForm from "./EditProfileForm";
 import { StorageService } from "@/services/StorageService";
 import Link from "next/link";
 import Button from "@/app/components/Button";
+import { appPath } from "@/utils/path.utils";
 
 const userService = Container.get(UserService);
 const storageService = Container.get(StorageService);
@@ -16,7 +17,7 @@ const EditProfilePage = async () => {
   const platformUser = await userService
     .getUserByEmail(user.user.email)
     .catch(() => null);
-  if (!platformUser) redirect("/complete-sign-up");
+  if (!platformUser) redirect(appPath("/complete-sign-up"));
   const avatarUrl = !platformUser.avatarPath
     ? undefined
     : await storageService.getFileUrl(platformUser.avatarPath);

@@ -12,6 +12,7 @@ import { StorageService } from "@/services/StorageService";
 import Button from "@/app/components/Button";
 import Link from "next/link";
 import DeletePostMediaForm from "./DeletePostMediaForm";
+import { appPath } from "@/utils/path.utils";
 
 const postService = Container.get(PostService);
 const userService = Container.get(UserService);
@@ -22,7 +23,7 @@ const EditPostPage = async ({ params: { id } }: any) => {
   const { user } = await getAuthUser();
   const platformUser = await userService
     .getUserByEmail(user.user.email)
-    .catch(() => redirect("/complete-sign-up"));
+    .catch(() => redirect(appPath("/complete-sign-up")));
   const post = await postService
     .findOnePost({ where: { id } })
     .catch(() => notFound());

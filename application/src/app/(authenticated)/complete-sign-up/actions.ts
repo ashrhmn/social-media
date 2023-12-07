@@ -7,6 +7,7 @@ import { UserService } from "@/services/UserService";
 import { v4 } from "uuid";
 import { EventService } from "@/services/EventService";
 import { redirect } from "next/navigation";
+import { appPath } from "@/utils/path.utils";
 
 const userService = Container.get(UserService);
 const eventService = Container.get(EventService);
@@ -26,6 +27,6 @@ export const handleCompleteSignUp = createFormHandler(
       notifyId // pass the notification id (Optional, if notifying the user is a goal)
     );
     // redirect to profile page
-    return redirect("/profile");
+    return redirect(appPath("/profile"));
   }
 );

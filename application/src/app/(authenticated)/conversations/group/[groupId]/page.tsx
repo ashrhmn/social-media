@@ -9,6 +9,7 @@ import ChatView from "../../ChatView";
 import { StorageService } from "@/services/StorageService";
 import SendGroupMessageForm from "./SendGroupMessageForm";
 import SocketListener from "../../SocketListener";
+import { appPath } from "@/utils/path.utils";
 
 const userService = Container.get(UserService);
 const conversationService = Container.get(ConversationService);
@@ -23,7 +24,7 @@ const GroupConversationPage = async ({ params: { groupId } }: any) => {
   const { user } = await getAuthUser();
   const platformUser = await userService
     .getUserByEmail(user.user.email)
-    .catch(() => redirect("/complete-sign-up"));
+    .catch(() => redirect(appPath("/complete-sign-up")));
   const groupParticipants = await conversationService.getGroupParticipantsById(
     groupId
   );

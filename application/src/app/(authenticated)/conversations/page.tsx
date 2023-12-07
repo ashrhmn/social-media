@@ -7,6 +7,7 @@ import ConversationListItem from "./ConversationListItem";
 import { PlusIcon } from "@/app/components/Svgs";
 import Link from "next/link";
 import SocketListener from "./SocketListener";
+import { appPath } from "@/utils/path.utils";
 
 const conversationService = Container.get(ConversationService);
 const userService = Container.get(UserService);
@@ -15,7 +16,7 @@ export default async function ConversationListPage() {
   const { user } = await getAuthUser();
   const platformUser = await userService
     .getUserByEmail(user.user.email)
-    .catch(() => redirect("/complete-sign-up"));
+    .catch(() => redirect(appPath("/complete-sign-up")));
   const conversations = await conversationService.getConversationList(
     platformUser.id
   );

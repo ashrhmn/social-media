@@ -9,6 +9,7 @@ import { EventService } from "@/services/EventService";
 import { PostService } from "@/services/PostService";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { appPath } from "@/utils/path.utils";
 
 const storageService = Container.get(StorageService);
 const eventService = Container.get(EventService);
@@ -44,7 +45,7 @@ export const handleDeletePostMedia = createFormHandler(
       },
       notifyId
     );
-    revalidatePath(`/post/${postId}/edit`);
+    revalidatePath(appPath(`/post/${postId}/edit`));
     return {};
   }
 );

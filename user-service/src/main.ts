@@ -1,6 +1,8 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
+import { config } from "dotenv";
+config();
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
@@ -8,7 +10,7 @@ async function bootstrap() {
     {
       transport: Transport.RMQ,
       options: {
-        urls: ["amqp://localhost:5672"],
+        urls: [process.env.RMQ_URL || "amqp://localhost:5672"],
         queue: "user_service_queue",
         queueOptions: {
           durable: false,

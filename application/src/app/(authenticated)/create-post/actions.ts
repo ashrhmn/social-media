@@ -8,6 +8,7 @@ import { StorageService } from "@/services/StorageService";
 import { PostService } from "@/services/PostService";
 import { EventService } from "@/services/EventService";
 import { redirect } from "next/navigation";
+import { appPath } from "@/utils/path.utils";
 
 const storageService = Container.get(StorageService);
 const postService = Container.get(PostService);
@@ -28,6 +29,6 @@ export const handleCreatePost = createFormHandler(
       },
       notifyId
     );
-    redirect("/profile");
+    redirect(appPath("/profile"));
   }
 );

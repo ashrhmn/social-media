@@ -16,7 +16,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
           name: "AuthUserService",
           transport: Transport.RMQ,
           options: {
-            urls: ["amqp://localhost:5672"],
+            urls: [process.env.RMQ_URL || "amqp://localhost:5672"],
             queue: "USER_QUEUE",
             queueOptions: {
               durable: false,

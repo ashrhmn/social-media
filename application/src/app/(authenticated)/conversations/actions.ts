@@ -5,6 +5,7 @@ import { ConversationService } from "@/services/ConversationService";
 import { EventService } from "@/services/EventService";
 import { StorageService } from "@/services/StorageService";
 import { UserService } from "@/services/UserService";
+import { appPath } from "@/utils/path.utils";
 import { createFormHandler } from "@/utils/zod.utils";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
@@ -61,24 +62,24 @@ export const handleCreateMessage = createFormHandler(
       },
       notifyId
     );
-    revalidatePath(`/conversations/`, "page");
+    revalidatePath(appPath(`/conversations/`), "page");
     const headerCollection = headers();
     const pathname = headerCollection.get("x-pathname");
-    if (pathname === "/conversations/new-message")
-      redirect(`/conversations/${receiverId}`);
+    if (pathname === appPath("/conversations/new-message"))
+      redirect(appPath(`/conversations/${receiverId}`));
     return {};
   }
 );
 
 export const revalidate = async () => {
-  revalidatePath(`/conversations/`, "page");
+  revalidatePath(appPath(`/conversations/`), "page");
 };
 
 export const getPlatformUserWithOtherUsers = async (whereOptions: any = {}) => {
   const { user } = await getAuthUser();
   const platformUser = await userService
     .getUserByEmail(user.user.email)
-    .catch(() => redirect("/complete-sign-up"));
+    .catch(() => redirect(appPath("/complete-sign-up")));
   const users = await userService.findManyUsers({
     where: {
       id: {
@@ -113,7 +114,7 @@ export const handleCreateGroup = createFormHandler(
       notifyId
     );
 
-    redirect(`/conversations/`);
+    redirect(appPath(`/conversations/`));
     return {};
   }
 );

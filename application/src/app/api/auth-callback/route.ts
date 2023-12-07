@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import Container from "typedi";
 import { parse } from "url";
 import { AppConfig } from "@/config";
+import { appPath } from "@/utils/path.utils";
 
 const authService = Container.get(AuthService);
 
@@ -22,7 +23,7 @@ export async function GET(request: Request) {
   // redirect("complete-profile")
   const next = url.query.next;
   const res = NextResponse.redirect(
-    new URL(typeof next === "string" ? next : "/", request.url)
+    new URL(typeof next === "string" ? next : appPath("/"), request.url)
   );
   res.headers.append(
     "Set-Cookie",

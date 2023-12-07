@@ -3,9 +3,7 @@ import "server-only";
 import { RmqClient } from "@/internals/classes/RmqClient";
 import { Service } from "typedi";
 import { AppConfig } from "@/config";
-import { v4 } from "uuid";
 import { EventService } from "./EventService";
-import { redirect } from "next/navigation";
 
 @Service()
 export class ConversationService extends RmqClient {
