@@ -17,6 +17,7 @@ ENV NODE_ENV=production
 COPY .env .
 COPY public ./public
 COPY server.js .
+COPY next.config.js .
 COPY --from=builder /app/.next /app/.next
 
 EXPOSE 3000
